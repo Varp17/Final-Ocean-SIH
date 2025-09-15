@@ -150,16 +150,21 @@ export function SocialMediaFeed({ searchQuery, severityFilter }: SocialMediaFeed
     )
   }
 
+  // Filtering logic
   const filteredPosts = posts.filter((post) => {
-    const matchesSearch =
-      searchQuery === "" ||
-      post.content?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.author?.toLowerCase().includes(searchQuery.toLowerCase())
+    const query = searchQuery?.toLowerCase() ?? ""
 
-    const matchesSeverity = severityFilter === "all" || post.analysis?.hazardInfo?.severity === severityFilter
+    const matchesSearch =
+      query === "" ||
+      post.content?.toLowerCase().includes(query) ||
+      post.author?.toLowerCase().includes(query)
+
+    const matchesSeverity =
+      severityFilter === "all" || post.analysis?.hazardInfo?.severity === severityFilter
 
     return matchesSearch && matchesSeverity
   })
+
 
   if (isLoading) {
     return (
