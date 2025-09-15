@@ -5,12 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BarChart3, TrendingUp, Brain, MapPin, MessageSquare, CheckCircle, XCircle, Activity } from "lucide-react"
+import { BarChart3, Brain, MapPin, MessageSquare, CheckCircle, XCircle } from "lucide-react"
 import { LiveInteractiveMap } from "@/components/maps/live-interactive-map"
 import { SocialMediaFeed } from "@/components/social-media-feed"
-import { AnalyticsCharts } from "@/components/analytics-charts"
-import { ReportsList } from "@/components/reports-list"
 import { ComprehensiveAnalytics } from "@/components/comprehensive-analytics"
+import { RealTimeWidgets } from "./real-time-widgets"
+import { LiveReportsManagement } from "./live-reports-management"
+import { ModelProcessPipeline } from "./model-process-pipeline"
+import { FinalReportsGeneration } from "./final-reports-generation"
+import { AuditHistoryTracking } from "./audit-history-tracking"
 
 export function AnalystDashboard() {
   const [activeTab, setActiveTab] = useState("overview")
@@ -103,14 +106,14 @@ export function AnalystDashboard() {
       <div className="p-3 sm:p-4 lg:p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <div className="w-full overflow-x-auto">
-            <TabsList className="grid grid-cols-6 w-full min-w-[600px] sm:min-w-0 h-auto">
+            <TabsList className="grid grid-cols-8 w-full min-w-[800px] sm:min-w-0 h-auto">
               <TabsTrigger value="overview" className="text-xs sm:text-sm py-2 sm:py-2.5 px-2 sm:px-4">
                 <span className="hidden sm:inline">Overview</span>
                 <span className="sm:hidden">Home</span>
               </TabsTrigger>
               <TabsTrigger value="verification" className="text-xs sm:text-sm py-2 sm:py-2.5 px-2 sm:px-4">
-                <span className="hidden sm:inline">Verification</span>
-                <span className="sm:hidden">Verify</span>
+                <span className="hidden sm:inline">Live Reports</span>
+                <span className="sm:hidden">Reports</span>
               </TabsTrigger>
               <TabsTrigger value="social" className="text-xs sm:text-sm py-2 sm:py-2.5 px-2 sm:px-4">
                 <span className="hidden sm:inline">Social Analysis</span>
@@ -121,8 +124,16 @@ export function AnalystDashboard() {
                 <span className="sm:hidden">Map</span>
               </TabsTrigger>
               <TabsTrigger value="ml" className="text-xs sm:text-sm py-2 sm:py-2.5 px-2 sm:px-4">
-                <span className="hidden sm:inline">ML Monitoring</span>
+                <span className="hidden sm:inline">Model Process</span>
                 <span className="sm:hidden">ML</span>
+              </TabsTrigger>
+              <TabsTrigger value="reports" className="text-xs sm:text-sm py-2 sm:py-2.5 px-2 sm:px-4">
+                <span className="hidden sm:inline">Final Reports</span>
+                <span className="sm:hidden">Final</span>
+              </TabsTrigger>
+              <TabsTrigger value="audit" className="text-xs sm:text-sm py-2 sm:py-2.5 px-2 sm:px-4">
+                <span className="hidden sm:inline">Audit & History</span>
+                <span className="sm:hidden">Audit</span>
               </TabsTrigger>
               <TabsTrigger value="analytics" className="text-xs sm:text-sm py-2 sm:py-2.5 px-2 sm:px-4">
                 <span className="hidden sm:inline">Analytics</span>
@@ -132,6 +143,8 @@ export function AnalystDashboard() {
           </div>
 
           <TabsContent value="overview" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+            <RealTimeWidgets />
+
             {/* Key Metrics */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
               <Card>
@@ -179,9 +192,8 @@ export function AnalystDashboard() {
               </Card>
 
               <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-xs sm:text-sm font-medium">Verification Rate</CardTitle>
-                  <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
+                <CardHeader>
+                  <CardTitle className="text-sm sm:text-base">Verification Rate</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-lg sm:text-2xl font-bold">
@@ -192,9 +204,8 @@ export function AnalystDashboard() {
               </Card>
 
               <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-xs sm:text-sm font-medium">Sentiment Score</CardTitle>
-                  <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
+                <CardHeader>
+                  <CardTitle className="text-sm sm:text-base">Sentiment Score</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-lg sm:text-2xl font-bold">{analyticsData.sentimentScore.toFixed(2)}</div>
@@ -273,7 +284,7 @@ export function AnalystDashboard() {
           </TabsContent>
 
           <TabsContent value="verification">
-            <ReportsList />
+            <LiveReportsManagement />
           </TabsContent>
 
           <TabsContent value="social">
@@ -296,47 +307,15 @@ export function AnalystDashboard() {
           </TabsContent>
 
           <TabsContent value="ml">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-sm sm:text-base">Model Accuracy Trends</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <AnalyticsCharts />
-                </CardContent>
-              </Card>
+            <ModelProcessPipeline />
+          </TabsContent>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-sm sm:text-base">Processing Queue</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3 sm:space-y-4">
-                    <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
-                      <div className="flex items-center gap-2 flex-1 min-w-0">
-                        <Activity className="h-3 w-3 sm:h-4 sm:w-4 text-blue-600 flex-shrink-0" />
-                        <span className="text-xs sm:text-sm truncate">Image Analysis Queue</span>
-                      </div>
-                      <Badge className="text-xs flex-shrink-0">23 pending</Badge>
-                    </div>
-                    <div className="flex items-center justify-between p-2 sm:p-3 bg-green-50 rounded-lg">
-                      <div className="flex items-center gap-2 flex-1 min-w-0">
-                        <Brain className="h-3 w-3 sm:h-4 sm:w-4 text-green-600 flex-shrink-0" />
-                        <span className="text-xs sm:text-sm truncate">Text Classification</span>
-                      </div>
-                      <Badge className="text-xs flex-shrink-0">12 pending</Badge>
-                    </div>
-                    <div className="flex items-center justify-between p-2 sm:p-3 bg-yellow-50 rounded-lg">
-                      <div className="flex items-center gap-2 flex-1 min-w-0">
-                        <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-600 flex-shrink-0" />
-                        <span className="text-xs sm:text-sm truncate">Sentiment Analysis</span>
-                      </div>
-                      <Badge className="text-xs flex-shrink-0">8 pending</Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+          <TabsContent value="reports">
+            <FinalReportsGeneration />
+          </TabsContent>
+
+          <TabsContent value="audit">
+            <AuditHistoryTracking />
           </TabsContent>
 
           <TabsContent value="analytics">
