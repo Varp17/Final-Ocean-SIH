@@ -14,7 +14,7 @@ from ..models.schemas import ReportCreate, ReportResponse
 from ..services.ml_scoring import score_report_async
 from ..websocket_manager import WebSocketManager
 
-router = APIRouter(prefix="/reports", tags=["Reports"])
+router = APIRouter(tags=["Reports"])
 websocket_manager = WebSocketManager()
 
 @router.post("/", response_model=dict)
